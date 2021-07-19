@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
 import cv2
+import math
 
 line_image = 0
 
@@ -43,5 +44,57 @@ lines = cv2.HoughLinesP (cropped_image, rho = 6, theta = np.pi/60, threshold = 1
 line_image = draw_lines(image, lines)
 plt.figure()
 plt.imshow(line_image)
+"""
+left_line_x = []
+left_line_y = []
+right_line_x = []
+right_line_y = []
+
+
+for line in lines:
+	for x1, y1, x2, y2 in line:
+		slope = (y2-y1)/(x2-x1)
+		if math.fabs(slope) < 0.5:
+			continue
+		if slope <= 0:
+			left_line_x.extend([x1, x2])
+			left_line_y.extend([y1, y2])
+		else:
+			right_line_x.extend([x1, x2])
+			right_line_y.extend([y1, y2])
+
+min_y = image.shape[0]*(3/5)
+max_y = image.shape[0]
+
+poly_left = np.poly1d(np.polyfit(
+	left_line_y,
+	left_line_x,
+	deg = 1
+))
+
+left_x_start = int(poly_left(max_y))
+left_x_end = int(poly_left(min_y))
+
+poly_right = np.poly1d(np.polyfit(
+	right_line_y,
+	right_line_x,
+	deg = 1
+))
+
+right_x_start = int(poly_right(max_y))
+right_x_end = int(poly_right(min_y))
+
+line_image = draw_lines(
+	image,
+	[[
+		[left_x_start, max_y, left_x_end, min_y],
+		[right_x_start, max_y, right_x_end, min_y],
+	]],
+	thickness=5
+)
+
+plt.figure()
+plt.imshow(line_image)
+"""
 plt.show()
 
