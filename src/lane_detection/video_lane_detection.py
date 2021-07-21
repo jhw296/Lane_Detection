@@ -1,3 +1,5 @@
+from time import sleep
+
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import numpy as np
@@ -16,7 +18,7 @@ def draw_lines(img, lines, color = [255, 0, 0], thickness=3):
 	if lines is None:
 		return
 	img = np.copy(img)
-	line_img = np.zeros((img.shape[0], img.shape[1], 3), dtype = np.uint8,)
+	line_img = np.zeros((img.shape[0], img.shape[1], 3), dtype = np.uint8)
 	
 	for line in lines:
 		for x1, y1, x2, y2 in line:
@@ -34,7 +36,9 @@ size = (width, height)
 out = cv2.VideoWriter('video_out.mp4', fourcc, 20, size, 0)
 
 region_of_interest_vertices = [(0, int(height)), (int(width)/2, int(height)/2), (int(width), int(height)),]
- 
+
+
+
 while True:
 	ret, frame = image.read()
 	if not ret:
@@ -44,17 +48,18 @@ while True:
 	cropped_image = region_of_interest(cannyed_image, np.array([region_of_interest_vertices], np.int32))
 
 	lines = cv2.HoughLinesP (cropped_image, rho = 6, theta = np.pi/60, threshold = 160, lines = np.array([]), minLineLength = 40, maxLineGap = 25 )
-	print(lines)
+	#print(lines)
 
 	#out.write(cropped_image)
 	
-	#line_image = draw_lines(image, lines)
+	line_image = draw_lines(frame, lines)
 
 	cv2.imshow('video', frame)
 	cv2.imshow('video_gray', cropped_image)
-	#cv2.imshow('video_line', line_image)
+	cv2.imshow('video_line', line_image)
 	cv2.waitKey(1)
+	sleep(0.1)
 #image.release()
 #out.release()
-cv2.destoryAllWindows()
+cv2.destroyAllWindows()
 
