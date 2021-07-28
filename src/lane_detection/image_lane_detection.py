@@ -60,7 +60,7 @@ max_y = int(image.shape[0])
 for line in lines:
 	for x1, y1, x2, y2 in line:
 		print(x1, y1, x2, y2)
-		slope = float((y2 - y1)) / float((x2 - x1))
+		slope = float((y2 - y1)) / float((x2 - x1)) # fix error (TypeError)
 		print(slope)
 		if math.fabs(slope) < 0.5:
 			continue
