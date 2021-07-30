@@ -46,7 +46,8 @@ print(lines)
 
 line_image = draw_lines(image, lines)
 plt.figure()
-plt.imshow(line_image)
+#plt.imshow(line_image)
+
 
 
 left_line_x = []
@@ -91,48 +92,6 @@ poly_right = np.poly1d(np.polyfit(
 
 right_x_start = int(poly_right(max_y))
 right_x_end = int(poly_right(min_y))
-
-
-# if left_line_x is not None and left_line_y is not None:
-# 	try:
-# 		poly_left = np.poly1d(np.polyfit(
-# 			left_line_y,
-# 			left_line_x,
-# 			deg = 1
-# 		))
-# 		print(poly_left)
-# 		left_x_start = int(poly_left(max_y))
-# 		left_x_end = int(poly_left(min_y))
-# 		print(left_x_start, left_x_end)
-# 	except:
-# 		pass
-# 		left_x_start = int(poly_left(max_y))
-# 		left_x_end = int(poly_left(min_y))
-#
-# if left_line_x is None or left_line_y is None:
-# 	pass
-#
-# if right_line_x is not None and right_line_y is not None:
-# 	try:
-# 		poly_right = np.poly1d(np.polyfit(
-# 			right_line_y,
-# 			right_line_x,
-# 			deg = 1
-# 		))
-# 		print(poly_right)
-# 		right_x_start = int(poly_right(max_y))
-# 		right_x_end = int(poly_right(min_y))
-# 		print("OK")
-# 	except:
-# 		pass
-# 		print("no")
-# 		right_x_start = int(poly_right(min_y))
-# 		right_x_end = int(poly_right(max_y))
-# 		# right_x_start = 0
-# 		# right_x_end = 0
-#
-# if right_line_x is None or right_line_y is None:
-# 	pass
 
 line_image = draw_lines(
 	image,
