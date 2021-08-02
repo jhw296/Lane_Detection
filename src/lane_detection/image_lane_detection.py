@@ -39,6 +39,7 @@ cropped_image = region_of_interest(cannyed_image, np.array([region_of_interest_v
 plt.figure()
 plt.imshow(cropped_image)
 
+# HoughLines, HoughLinesP 
 lines = cv2.HoughLinesP (cropped_image, rho = 6, theta = np.pi/60, threshold = 160, lines = np.array([]), minLineLength = 40, maxLineGap = 25 )
 
 print(len(lines))
@@ -93,6 +94,8 @@ poly_right = np.poly1d(np.polyfit(
 right_x_start = int(poly_right(max_y))
 right_x_end = int(poly_right(min_y))
 
+
+# y-axis correction
 line_image = draw_lines(
 	image,
 	[[
