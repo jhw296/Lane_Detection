@@ -28,36 +28,33 @@ def draw_lines(img, lines, color = [255, 0, 0], thickness=3):
 region_of_interest_vertices = [(0, 540), (960/2, 540/2), (960, 540),]
 
 image = mpimg.imread('solidWhiteCurve.jpg')
+# image = mpimg.imread('lane_image.png')
 
-plt.figure()
-plt.imshow(image)
+# plt.figure()
+# plt.imshow(image)
 
 gray_image = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
 cannyed_image = cv2.Canny(gray_image, 100, 200)
 cropped_image = region_of_interest(cannyed_image, np.array([region_of_interest_vertices], np.int32))
 
-plt.figure()
-plt.imshow(cropped_image)
+# plt.figure()
+# plt.imshow(cropped_image)
 
 # HoughLines, HoughLinesP 
-lines = cv2.HoughLinesP (cropped_image, rho = 6, theta = np.pi/60, threshold = 160, lines = np.array([]), minLineLength = 40, maxLineGap = 25 )
+lines = cv2.HoughLinesP (cropped_image, rho = 6, theta = np.pi/60, threshold = 160, lines = np.array([]), minLineLength = 40, maxLineGap = 25)
 
 print(len(lines))
 print(lines)
 
-line_image = draw_lines(image, lines)
-plt.figure()
-#plt.imshow(line_image)
-
+# line_image = draw_lines(image, lines)
+# plt.figure()
+# plt.imshow(line_image)
 
 
 left_line_x = []
 left_line_y = []
 right_line_x = []
 right_line_y = []
-
-min_y = int(image.shape[0]*(3/5))
-max_y = int(image.shape[0])
 
 for line in lines:
 	for x1, y1, x2, y2 in line:
@@ -73,8 +70,12 @@ for line in lines:
 			right_line_x.extend([x1, x2])
 			right_line_y.extend([y1, y2])
 
-print(line)
-print(left_line_x, left_line_y, right_line_x, right_line_y)
+# print(line)
+# print(left_line_x, left_line_y, right_line_x, right_line_y)
+
+# min_y = 320
+min_y = image.shape[0]*(3/5)
+max_y = image.shape[0]
 
 poly_left = np.poly1d(np.polyfit(
 	left_line_y,
@@ -99,12 +100,12 @@ right_x_end = int(poly_right(min_y))
 line_image = draw_lines(
 	image,
 	[[
-		[int(left_x_start), int(max_y), int(left_x_end), min_y],
-		[int(right_x_start), int(max_y), int(right_x_end), min_y],
+		[left_x_start, max_y, left_x_end, min_y],
+		[right_x_start, max_y, right_x_end, min_y],
 	]],
-#	thickness=5
-	(0, 0, 255),
-	3,
+	thickness=5,
+	# (0, 0, 255),
+	# 3,
 )
 
 plt.figure()
