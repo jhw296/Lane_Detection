@@ -6,7 +6,7 @@ import math
 
 line_image = 0
 
-# 관심 영역 추출
+
 def region_of_interest (img, vertices) :
 	mask = np.zeros_like(img)
 	match_mask_color = 255
@@ -14,7 +14,7 @@ def region_of_interest (img, vertices) :
 	masked_image = cv2.bitwise_and (img, mask)
 	return masked_image
 
-# 차선 탐지 후 선 그리는 함수
+
 def draw_lines(img, lines, color = [255, 0, 0], thickness=3):
 	if lines is None:
 		return
@@ -27,10 +27,11 @@ def draw_lines(img, lines, color = [255, 0, 0], thickness=3):
 	img = cv2.addWeighted(img, 0.8, line_img, 1.0, 0.0)
 	return img
 
-region_of_interest_vertices = [(0, 540), (960/2, 540/2), (960, 540),]
+# region_of_interest_vertices = [(0, 540), (960/2, 540/2), (960, 540),]
+region_of_interest_vertices = [(0, 480), (640/2, 480/2), (640, 480),]
 
-image = mpimg.imread('solidWhiteCurve.jpg')
-# image = mpimg.imread('lane_image.png')
+# image = mpimg.imread('solidWhiteCurve.jpg')
+image = mpimg.imread('image.jpg')
 
 # plt.figure()
 # plt.imshow(image)
@@ -58,7 +59,7 @@ left_line_y = []
 right_line_x = []
 right_line_y = []
 
-# 라인 기울기에 따라 차선 병합
+
 for line in lines:
 	for x1, y1, x2, y2 in line:
 		print(x1, y1, x2, y2)
@@ -76,8 +77,8 @@ for line in lines:
 # print(line)
 # print(left_line_x, left_line_y, right_line_x, right_line_y)
 
-# min_y = 320
-min_y = image.shape[0]*(3/5)
+min_y = 320
+# min_y = image.shape[0]*(3/5)
 max_y = image.shape[0]
 
 poly_left = np.poly1d(np.polyfit(
